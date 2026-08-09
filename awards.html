@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>awards &amp; certifications, krish sakthivel</title>
+  <link rel="stylesheet" href="assets/style.css"/>
+  <style>
+    /* category tabs, reuses the .filter-btn look from the projects page */
+    .awards-tabs { padding: 1.7rem 3rem; }
+    .awards-section.hidden { display: none; }
+
+    /* color-coded org line, replaces the old rank badge */
+    .award-org.org-navy { color: var(--navy); }
+    .award-org.org-muted { color: var(--muted); }
+
+    /* competitive-awards sub-filter: hackathon vs VEX, never both at once */
+    .kind-filter { margin-bottom: 1.8rem; }
+    .award-card.hidden { display: none; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">hey, i'm krish</a>
+    <ul class="nav-links">
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="awards.html" class="active">Awards</a></li>
+      <li><a href="index.html#contact" class="nav-cta">Contact</a></li>
+    </ul>
+  </nav>
+
+  <header class="page-header">
+    <div class="header-inner">
+      <a href="/" class="back-link">← back home</a>
+      <span class="tag-label" style="color:var(--peach);">awards!</span>
+      <h1 class="page-heading">awards &amp; <span class="hl">certifications</span>.</h1>
+      <p class="page-sub">stuff i've won, earned, or somehow convinced people to hand over.</p>
+    </div>
+  </header>
+
+  <div class="filters awards-tabs">
+    <div class="filter-group">
+      <button class="filter-btn active" data-tab="competitive">Competitive Awards</button>
+      <button class="filter-btn" data-tab="certs">Certifications &amp; Credentials</button>
+      <button class="filter-btn" data-tab="honors">Honors &amp; Recognition</button>
+    </div>
+  </div>
+
+  <section class="awards-section" data-tab="competitive">
+    <div class="awards-section-header">
+      <h2 class="awards-section-title">Competitive Awards</h2>
+      <span class="awards-section-count">11 total, 5 hackathon, 6 VEX</span>
+    </div>
+    <div class="filter-group kind-filter">
+      <span class="filter-group-label">showing:</span>
+      <button class="filter-btn active" data-kind="hackathon">hackathon</button>
+      <button class="filter-btn" data-kind="vex">VEX</button>
+    </div>
+    <div class="award-grid">
+<div class="award-card" data-kind="hackathon">
+        <div class="award-body">
+          <div class="award-title">1st Place (Overall Hackathon Winner)</div>
+          <div class="award-org">West Hacks</div>
+          <p class="award-desc">for Rake, an educational platform that uses the Feynman technique to teach complex concepts.</p>
+          <div class="award-foot"><span>hackathon</span><span>2026</span></div>
+        </div>
+      </div>
+
+      <div class="award-card" data-kind="hackathon">
+        <div class="award-body">
+          <div class="award-title">2nd Place in AI &amp; Machine Learning</div>
+          <div class="award-org">SMathHacks 2026</div>
+          <p class="award-desc">for the AI Carbon Sink Predictor, which lets you click any oceanic
+            point on a map and get back a carbon score from the surrounding environmental factors.</p>
+          <div class="award-foot"><span>hackathon</span><span>2026</span></div>
+        </div>
+      </div>
+
+         <div class="award-card" data-kind="hackathon">
+        <div class="award-body">
+          <div class="award-title">3rd Place (Overall Hackathon Finalist)</div>
+          <div class="award-org">WeatherWise Hack</div>
+          <p class="award-desc">for StrikeRisk, a tool to predict wildfire risk through the probability of dry lightning.</p>
+          <div class="award-foot"><span>hackathon</span><span>2026</span></div>
+        </div>
+      </div>
+<div class="award-card" data-kind="hackathon">
+        <div class="award-body">
+          <div class="award-title">Best Defense Project</div>
+          <div class="award-org">GreenCode</div>
+          <p class="award-desc">for Safehouse, which lets journalists check a site for malicious
+            behavior before opening it on their own machine.</p>
+          <div class="award-foot"><span>hackathon, track award</span><span>2026</span></div>
+        </div>
+      </div>
+      <div class="award-card" data-kind="hackathon">
+        <div class="award-body">
+          <div class="award-title">Most Innovative Solution</div>
+          <div class="award-org">UNCC Teen Hackathon 2026</div>
+          <p class="award-desc">for RadonRadarNC, which lets you click a land point on a map and get
+            back a radon score based on that area's factors.</p>
+          <div class="award-foot"><span>hackathon</span><span>2026</span></div>
+        </div>
+      </div>
+
+      
+
+     
+
+      <div class="award-card" data-kind="vex">
+        <div class="award-body">
+          <div class="award-title">Tournament Champions</div>
+          <div class="award-org org-navy">West Cabarrus Robo Challenge Invitational</div>
+          <p class="award-desc">MS/HS V5: Blended VEX V5 Robotics Competition Invitational, for being
+            part of the winning alliance.</p>
+          <div class="award-foot"><span>VEX, team 13155U</span><span>2026</span></div>
+        </div>
+      </div>
+
+      <div class="award-card" data-kind="vex">
+        <div class="award-body">
+          <div class="award-title">Excellence Award</div>
+          <div class="award-org org-navy">West Cabarrus Robo Challenge Invitational</div>
+          <p class="award-desc">MS/HS V5: Blended VEX V5 Robotics Competition Invitational, for being
+            the best team overall.</p>
+          <div class="award-foot"><span>VEX, team 13155U</span><span>2026</span></div>
+        </div>
+      </div>
+
+      <div class="award-card" data-kind="vex">
+        <div class="award-body">
+          <div class="award-title">Tournament Finalists</div>
+          <div class="award-org org-navy">Trojan Throwdown <em>(postponed)</em></div>
+          <p class="award-desc">MS/HS V5: Blended VEX V5 Robotics Competition Open, for being part
+            of the alliance that made it to finals.</p>
+          <div class="award-foot"><span>VEX, team 13155U</span><span>2026</span></div>
+        </div>
+      </div>
+
+      <div class="award-card" data-kind="vex">
+        <div class="award-body">
+          <div class="award-title">Tournament Finalists</div>
+          <div class="award-org org-navy">Hoke County Schools V5RC</div>
+          <p class="award-desc">Middle/High Only, for being part of the alliance that made it to finals.</p>
+          <div class="award-foot"><span>VEX, team 13155U</span><span>2026</span></div>
+        </div>
+      </div>
+
+      <div class="award-card" data-kind="vex">
+        <div class="award-body">
+          <div class="award-title">Innovate Award</div>
+          <div class="award-org org-navy">Hoke County Schools V5RC</div>
+          <p class="award-desc">Middle/High Only, for an innovative solution to the VEX challenge.</p>
+          <div class="award-foot"><span>VEX, team 13155U</span><span>2026</span></div>
+        </div>
+      </div>
+
+      <div class="award-card" data-kind="vex">
+        <div class="award-body">
+          <div class="award-title">Judges Award</div>
+          <div class="award-org org-navy">NC VEX IQ State Championship</div>
+          <p class="award-desc">2024 to 2025 season, for being the team the judges liked most.</p>
+          <div class="award-foot"><span>VEX, team 40586B</span><span>2025</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="awards-section" data-tab="certs">
+    <div class="awards-section-header">
+      <h2 class="awards-section-title">Certifications &amp; Credentials</h2>
+      <span class="awards-section-count">3 certifications</span>
+    </div>
+    <div class="award-grid">
+
+      <div class="award-card">
+        <div class="award-body">
+          <div class="award-title">CS50 Python '24</div>
+          <div class="award-org org-muted">Harvard CS50</div>
+          <p class="award-desc">completed CS50's course on the fundamentals of Python.</p>
+          <div class="award-foot"><span>certification</span><span>2024</span></div>
+        </div>
+      </div>
+
+      <div class="award-card">
+        <div class="award-body">
+          <div class="award-title">CS50 Scratch</div>
+          <div class="award-org org-muted">Harvard CS50</div>
+          <p class="award-desc">completed CS50's course on the fundamentals of Scratch.</p>
+          <div class="award-foot"><span>certification</span><span>2024</span></div>
+        </div>
+      </div>
+
+      <div class="award-card">
+        <div class="award-body">
+          <div class="award-title">Web Dev, Level 1–3</div>
+          <div class="award-org org-muted">Codeyoung</div>
+          <p class="award-desc">covered HTML, CSS, and JavaScript in depth, with a touch of React
+            Native, SQL, and Python.</p>
+          <div class="award-foot"><span>certification</span><span>2022</span></div>
+        </div>
+      </div>
+
+    
+
+    </div>
+  </section>
+
+  <section class="awards-section" data-tab="honors">
+    <div class="awards-section-header">
+      <h2 class="awards-section-title">Honors &amp; Recognition</h2>
+      <span class="awards-section-count">1 honor (working on more)</span>
+    </div>
+    <div class="award-grid">
+
+      <div class="award-card">
+        <div class="award-body">
+          <div class="award-title">CTY Grand Honors / SET</div>
+          <div class="award-org">Johns Hopkins CTY</div>
+          <p class="award-desc">recognized in the 2024–2025 CTY Talent Search for a high SAT score
+            in 8th grade.</p>
+          <div class="award-foot"><span>honor</span><span>2025</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <a href="/" class="foot-logo">krish.sakthivel</a>
+    <div class="foot-links">
+      <a href="https://github.com/krishsakthivel" target="_blank">github</a>
+    </div>
+    <p class="foot-copy">&copy; 2026, just a teenager on the internet chasing an idea or two</p>
+  </footer>
+
+  <script src="assets/main.js"></script>
+  <script>
+    const tabBtns = document.querySelectorAll('.awards-tabs .filter-btn');
+    const sections = document.querySelectorAll('.awards-section');
+
+    function showTab(tab) {
+      sections.forEach(sec => {
+        sec.classList.toggle('hidden', !(tab === 'all' || sec.dataset.tab === tab));
+      });
+    }
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        showTab(btn.dataset.tab);
+      });
+    });
+
+    // competitive awards: hackathon vs VEX, never shown together
+    const kindBtns = document.querySelectorAll('.kind-filter .filter-btn');
+    const kindCards = document.querySelectorAll('.award-card[data-kind]');
+
+    function showKind(kind) {
+      kindCards.forEach(card => {
+        card.classList.toggle('hidden', card.dataset.kind !== kind);
+      });
+    }
+
+    kindBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        kindBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        showKind(btn.dataset.kind);
+      });
+    });
+
+    showTab('competitive');
+    showKind('hackathon');
+  </script>
+</body>
+</html>

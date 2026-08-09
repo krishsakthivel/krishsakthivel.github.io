@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>projects, krish sakthivel</title>
+  <link rel="stylesheet" href="assets/style.css"/>
+  <style>
+    /* empty-state message, shown when a filter combo matches nothing */
+    .no-results {
+      display: none;
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      color: var(--muted);
+      border: 1.5px dashed var(--line);
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+    }
+    .no-results.show { display: block; }
+
+    /* no more status dot */
+    .status::before { display: none; }
+
+    /* limbo: demos that aren't really "in progress" anymore, just parked */
+    .status-limbo { background: rgba(147,112,219,0.12); color: #6b46c1; }
+
+    /* compact award card, reuses the .award-card look from the awards page */
+    .award-card-mini {
+      padding: 0.85rem 1rem;
+      gap: 0.8rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .award-card-mini .award-rank { font-size: 0.62rem; padding: 0.28rem 0.5rem; }
+    .award-card-mini .award-title { font-size: 0.85rem; margin-bottom: 0.15rem; }
+    .award-card-mini .award-org { font-size: 0.68rem; margin-bottom: 0; }
+
+    /* contributors, linked out and pulled out of the body text */
+    .proj-collab { display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
+    .proj-collab-label { font-family: var(--sans); font-size: 0.72rem; color: var(--muted); }
+    .collab-tag {
+      font-family: var(--sans);
+      font-size: 0.72rem; font-weight: 700;
+      color: var(--coral);
+      background: rgba(255,87,87,0.08);
+      border: 1px solid rgba(255,87,87,0.25);
+      padding: 0.2rem 0.5rem;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+    }
+    .collab-tag:hover { background: var(--coral); color: var(--white); }
+
+    /* type indicator */
+    .proj-type-badge {
+      font-family: var(--sans);
+      font-size: 0.62rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      padding: 0.28rem 0.5rem;
+      border: 1px solid;
+      flex-shrink: 0;
+    }
+    .proj-type-hackathon { color: var(--navy); border-color: var(--navy); background: rgba(15,52,115,0.06); }
+    .proj-type-passion { color: #a35a1c; border-color: var(--peach); background: rgba(244,169,106,0.12); }
+
+    /* card grid, replaces the old stacked log */
+    .proj-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.8rem;
+      align-items: stretch;
+    }
+    .proj-card {
+      border: 1.5px solid var(--ink);
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.15s, transform 0.15s;
+    }
+    .proj-card:hover { box-shadow: 5px 5px 0 var(--peach); transform: translate(-3px,-3px); }
+    .proj-card.hidden { display: none; }
+    .proj-card .proj-thumb { border: none; border-bottom: 1.5px solid var(--ink); border-radius: 0; }
+    .proj-card-body {
+      padding: 1.25rem 1.3rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      flex: 1;
+    }
+    .proj-card-top { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; flex-wrap: wrap; }
+    .proj-card .proj-title { font-size: 1.1rem; }
+    .proj-card .proj-desc { font-size: 0.85rem; max-width: none; }
+    .proj-card-side { display: flex; flex-direction: column; gap: 0.7rem; margin-top: auto; padding-top: 0.4rem; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">hey, i'm krish</a>
+    <ul class="nav-links">
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#work" class="active">Work</a></li>
+      <li><a href="awards.html">Awards</a></li>
+      <li><a href="index.html#contact" class="nav-cta">Contact</a></li>
+    </ul>
+  </nav>
+
+  <header class="page-header">
+    <div class="header-inner">
+      <a href="/" class="back-link">← back home</a>
+
+      <h1 class="page-heading">everything i've <span class="hl">built</span>.</h1>
+      <p class="page-sub">here are my projects!</p>
+    </div>
+  </header>
+
+  <div class="filters">
+    <div class="filter-group">
+      <span class="filter-group-label">status:</span>
+      <button class="filter-btn active" data-group="status" data-value="all">all</button>
+      <button class="filter-btn" data-group="status" data-value="live">live / released</button>
+      <button class="filter-btn" data-group="status" data-value="limbo">limbo</button>
+      <button class="filter-btn" data-group="status" data-value="unavail">unavailable</button>
+      <button class="filter-btn" data-group="status" data-value="deprecated">deprecated</button>
+    </div>
+    <div class="filter-group">
+      <span class="filter-group-label">type:</span>
+      <button class="filter-btn active" data-group="type" data-value="all">all</button>
+      <button class="filter-btn" data-group="type" data-value="hackathon">hackathon</button>
+      <button class="filter-btn" data-group="type" data-value="passion">passion project</button>
+    </div>
+  
+    <span class="result-count"><b id="proj-count">13</b> projects</span>
+  </div>
+
+  <section class="projects-list">
+<br>
+    <div class="proj-grid" id="proj-log">
+
+
+    
+      <div class="proj-card" data-status="live" data-type="passion" data-demo="no">
+        <div class="proj-thumb"><img src="assets/pitlinev5thumbnail3.jpeg" alt="pitlinev5"/></div>
+        <div class="proj-card-body">
+          <div class="proj-card-top">
+            <span class="proj-type-badge proj-type-passion">passion project</span>
+            <span class="status status-live">released, v2.0.0</span>
+          </div>
+          <h3 class="proj-title">pitlinev5</h3>
+          <p class="proj-desc">a Python library wrapping the RobotEvents API for deeper VEX V5
+            competition stats. the predecessor to Pitline.</p>
+          <div class="proj-card-side">
+            <div class="proj-stack"><span class="proj-tag">Python</span><span class="proj-tag">PyPI</span></div>
+            <div class="proj-links">
+            <a href="https://pypi.org/project/pitlinev5" target="_blank" class="proj-link">view on pypi</a>
+            <a href="https://github.com/krishsakthivel/pitlinev5-lib" target="_blank" class="proj-link">github repo</a>
+            </div>
+          </div>
+        </div>
+      </div>
+<div class="proj-card" data-status="live" data-type="passion" data-demo="no">
+        <div class="proj-thumb"><img src="assets/gs.jpeg" alt="git-savepoint"/></div>
+        <div class="proj-card-body">
+          <div class="proj-card-top">
+            <span class="proj-type-badge proj-type-passion">passion project</span>
+            <span class="status status-live">released, v1.2.2</span>
+          </div>
+          <h3 class="proj-title">git-savepoint</h3>
+          <p class="proj-desc">Auto-save your code. It watches a Git repo in the background and quietly saves snapshots as you work, no commits to look at, nothing to remember to do. If you ever break something, jump back to any earlier point in seconds. (pretty useless but made for fun)</p>
+          <div class="proj-card-side">
+            <div class="proj-stack"><span class="proj-tag">git</span><span class="proj-tag">Go</span></div>
+            <div class="proj-links">
+
+            <a href="https://github.com/krishsakthivel/git-savepoint" target="_blank" class="proj-link">github repo</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-card" data-status="live" data-type="passion" data-demo="no">
+        <div class="proj-thumb"><img src="assets/infinihelper.jpeg" alt="Infinite Craft Bookmarklet"/></div>
+        <div class="proj-card-body">
+          <div class="proj-card-top">
+            <span class="proj-type-badge proj-type-passion">passion project</span>
+            <span class="status status-live">live, v2.0.0</span>
+          </div>
+          <h3 class="proj-title">Infinite Craft Bookmarklet</h3>
+          <p class="proj-desc">a bookmarklet for importing and exporting Infinite Craft save files,
+            handy on machines where extensions and injected scripts are both blocked.</p>
+          <div class="proj-card-side">
+            <div class="proj-stack"><span class="proj-tag">JavaScript</span><span class="proj-tag">HTML</span></div>
+            <div class="proj-links"><a href="https://github.com/krishsakthivel/infinitecraft-helper-bm" target="_blank" class="proj-link">github repo</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-card" data-status="limbo" data-type="hackathon" data-demo="yes">
+        <div class="proj-thumb"><img src="assets/acspthumbnail.jpeg" alt="AI Carbon Sink Predictor"/></div>
+        <div class="proj-card-body">
+          <div class="proj-card-top">
+            <span class="proj-type-badge proj-type-hackathon">hackathon</span>
+            <span class="status status-limbo">demo, v1.0.0</span>
+          </div>
+          <h3 class="proj-title">AI Carbon Sink Predictor</h3>
+          <p class="proj-desc">click an oceanic point on a map, get back a carbon score from a
+            gradient-boosted regressor trained on the surrounding environmental factors.</p>
+          <div class="proj-card-side">
+            <div class="proj-stack"><span class="proj-tag">Python</span><span class="proj-tag">Flask</span><span class="proj-tag">Gradient Boosting</span></div>
+            <div class="proj-links"><a href="https://aicarbonsinkdetector.onrender.com/" class="proj-link">view demo</a><a href="https://github.com/krishsakthivel/aicarbonsinkpredictor" target="_blank" class="proj-link">github repo</a></div>
+            <a href="awards.html" class="award-card award-card-mini">
+            <span class="award-rank">TRACK-2ND</span>
+            <div class="award-body">
+            <div class="award-title">2nd Place in AI &amp; Machine Learning</div>
+            <div class="award-org">SMathHacks 2026</div>
+            </div>
+            </a>
+            <div class="proj-collab"><span class="proj-collab-label">with:</span>
+            <a href="https://github.com/sumeete123" target="_blank" class="collab-tag">@sumeete123</a>
+            <a href="https://github.com/coder175" target="_blank" class="collab-tag">@coder175</a>
+            </div>
+          </div>
+        </div>
+      </div>
+ <div class="proj-card" data-status="limbo" data-type="hackathon" data-demo="yes">
+        <div class="proj-thumb"><img src="assets/rake.jpeg" alt="Rake"/></div>
+        <div class="proj-card-body">
+          <div class="proj-card-top">
+            <span class="proj-type-badge proj-type-hackathon">hackathon</span>
+            <span class="status status-limbo">demo, v1.0.0</span>
+          </div>
+          <h3 class="proj-title">Rake</h3>
+          <p class="proj-desc">A platform to help you learn things using the Feynman Technique.</p>
+          <div class="proj-card-side">
+            <div class="proj-stack"><span class="proj-tag">Python</span><span class="proj-tag">Flask</span><span class="proj-tag">XGBoost</span></div>
+            <div class="proj-links"><a href="https://rakewh.onrender.com/" class="proj-link">view demo</a><a href="https://github.com/krishsakthivel/rakewh" target="_blank" class="proj-link">github repo</a></div>
+            <a href="awards.html" class="award-card award-card-mini">
+            <span class="award-rank">1ST</span>
+            <div class="award-body">
+            <div class="award-title">1st Place Overall</div>
+            <div class="award-org">West Hacks 2026</div>
+            </div>
+            </a>
+            <div class="proj-collab"><span class="proj-collab-label">no collaborators.</span>
+           
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-card" data-status="limbo" data-type="hackathon" data-demo="yes">
+        <div class="proj-thumb"><img src="assets/radonradar.jpeg" alt="RadonRadarNC"/></div>
+        <div class="proj-card-body">
+          <div class="proj-card-top">
+            <span class="proj-type-badge proj-type-hackathon">hackathon</span>
+            <span class="status status-limbo">demo, v1.0.0</span>
+          </div>
+          <h3 class="proj-title">RadonRadarNC</h3>
+          <p class="proj-desc">click a land point on a map, get back a radon score built from the
+            factors influencing that location.</p>
+          <div class="proj-card-side">
+            <div class="proj-stack"><span class="proj-tag">Python</span><span class="proj-tag">Flask</span><span class="proj-tag">XGBoost</span></div>
+            <div class="proj-links"><a href="https://radonradar.onrender.com/" class="proj-link">view demo</a><a href="https://github.com/krishsakthivel/radonradarnc" target="_blank" class="proj-link">github repo</a></div>
+            <a href="awards.html" class="award-card award-card-mini">
+            <span class="award-rank">INNOVATE</span>
+            <div class="award-body">
+            <div class="award-title">Most Innovative Solution</div>
+            <div class="award-org">UNCC Teen Hackathon 2026</div>
+            </div>
+            </a>
+            <div class="proj-collab"><span class="proj-collab-label">with:</span>
+            <a href="https://github.com/sumeete123" target="_blank" class="collab-tag">@sumeete123</a>
+            <a href="https://github.com/coder175" target="_blank" class="collab-tag">@coder175</a>
+            <a href="https://github.com/codersushi" target="_blank" class="collab-tag">@codersushi</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-card" data-status="limbo" data-type="hackathon" data-demo="yes">
+        <div class="proj-thumb"><img src="assets/safehouse.jpeg" alt="Safehouse"/></div>
+        <div class="proj-card-body">
+          <div class="proj-card-top">
+            <span class="proj-type-badge proj-type-hackathon">hackathon</span>
+            <span class="status status-limbo">demo, v1.0.0</span>
+          </div>
+          <h3 class="proj-title">Safehouse</h3>
+          <p class="proj-desc">lets journalists check a site for malicious behavior before opening it
+            on their own machine.</p>
+          <div class="proj-card-side">
+            <div class="proj-stack"><span class="proj-tag">Python</span><span class="proj-tag">Flask</span></div>
+            <div class="proj-links"><a href="https://safehousedm.onrender.com/" class="proj-link">view demo</a><a href="https://github.com/krishsakthivel/safehouse" target="_blank" class="proj-link">github repo</a></div>
+            <a href="awards.html" class="award-card award-card-mini">
+            <span class="award-rank">TRACK-1ST</span>
+            <div class="award-body">
+            <div class="award-title">Best Defense Project</div>
+            <div class="award-org">GreenCode</div>
+            </div>
+            </a>
+            <div class="proj-collab"><span class="proj-collab-label">with:</span>
+            <a href="https://github.com/mohanchippala123" target="_blank" class="collab-tag">@mohanchippala123</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+     
+
+      <div class="proj-card" data-status="limbo" data-type="hackathon" data-demo="yes">
+        <div class="proj-thumb"><img src="assets/strikerisk.jpeg" alt="StrikeRisk"/></div>
+        <div class="proj-card-body">
+          <div class="proj-card-top">
+            <span class="proj-type-badge proj-type-hackathon">hackathon</span>
+            <span class="status status-limbo">demo, v1.0.0</span>
+          </div>
+          <h3 class="proj-title">StrikeRisk</h3>
+          <p class="proj-desc">type in a city or location, get back an estimated chance of dry
+            lightning, plus other stats for weather literacy and wildfire risk from that lightning.</p>
+          <div class="proj-card-side">
+            <div class="proj-stack"><span class="proj-tag">Python</span><span class="proj-tag">Flask</span><span class="proj-tag">XGBoost</span></div>
+            <div class="proj-links"><a href="https://strikeriskdm.onrender.com/" class="proj-link">view demo</a>
+            <a href="https://github.com/krishsakthivel/strikerisk" target="_blank" class="proj-link">github repo</a></div>
+            <a href="awards.html" class="award-card award-card-mini">
+            <span class="award-rank">3RD</span>
+            <div class="award-body">
+            <div class="award-title">3rd Place Overall</div>
+            <div class="award-org">WeatherWise Hack</div>
+            </div>
+            </a>
+            <div class="proj-collab"><span class="proj-collab-label">with:</span>
+            <a href="https://github.com/codersushi" target="_blank" class="collab-tag">@codersushi</a>
+            <a href="https://github.com/sumeete123" target="_blank" class="collab-tag">@sumeete123</a>
+            </div>
+          </div>
+        </div>
+      </div>
+ <div class="proj-card" data-status="limbo" data-type="hackathon" data-demo="yes">
+        <div class="proj-thumb"><img src="assets/h2sradar.jpeg" alt="NC Hydrogen Sulfide Radar"/></div>
+        <div class="proj-card-body">
+          <div class="proj-card-top">
+            <span class="proj-type-badge proj-type-hackathon">hackathon</span>
+            <span class="status status-limbo">demo, v1.0.0</span>
+          </div>
+          <h3 class="proj-title">NC Hydrogen Sulfide Radar</h3>
+          <p class="proj-desc">click a point on the map, get back a hydrogen sulfide estimate based on
+            the factors influencing that location.</p>
+          <div class="proj-card-side">
+            <div class="proj-stack"><span class="proj-tag">Python</span><span class="proj-tag">Flask</span><span class="proj-tag">Next.js</span><span class="proj-tag">XGBoost</span></div>
+            <div class="proj-links"><a href="https://hydrogensulfide-radar-1.onrender.com/" class="proj-link">view demo</a><a href="https://github.com/codersushi/hydrogensulfide-radar" target="_blank" class="proj-link">github repo</a></div>
+            <div class="proj-collab"><span class="proj-collab-label">with:</span>
+            <a href="https://github.com/codersushi" target="_blank" class="collab-tag">@codersushi</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="proj-card" data-status="deprecated" data-type="hackathon" data-demo="yes">
+        <div class="proj-thumb"><img src="assets/eco2.jpeg" alt="Eco"/></div>
+        <div class="proj-card-body">
+          <div class="proj-card-top">
+            <span class="proj-type-badge proj-type-hackathon">hackathon</span>
+            <span class="status status-deprecated">deprecated</span>
+          </div>
+          <h3 class="proj-title">Eco</h3>
+          <p class="proj-desc">an ESG-based paper trading platform where people trade on paper and
+            compete on a leaderboard for the best environmental score.</p>
+          <div class="proj-card-side">
+            <div class="proj-stack"><span class="proj-tag">Python</span><span class="proj-tag">Flask</span><span class="proj-tag">Supabase</span><span class="proj-tag">XGBoost</span></div>
+            <div class="proj-links"><a href="https://github.com/krishsakthivel/eco" target="_blank" class="proj-link">github repo</a></div>
+            <div class="proj-collab"><span class="proj-collab-label">with:</span>
+            <a href="https://github.com/sumeete123" target="_blank" class="collab-tag">@sumeete123</a>
+            <a href="https://devpost.com/ojustennis" target="_blank" class="collab-tag">@ojustennis</a>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="proj-card" data-status="unavail" data-type="passion" data-demo="no">
+        <div class="proj-thumb"><img src="assets/upcoming.png" alt="throwaways"/></div>
+        <div class="proj-card-body">
+          <div class="proj-card-top">
+            <span class="proj-type-badge proj-type-passion">passion project</span>
+            <span class="status status-unavail">upcoming</span>
+          </div>
+          <h3 class="proj-title">Throwaways</h3>
+          <p class="proj-desc">Project can't be leaked! Wanna work with me? Contact me through one of my socials!</p>
+          <div class="proj-card-side">
+            <div class="proj-stack"><span class="proj-tag">Python</span><span class="proj-tag">HTML</span><span class="proj-tag">git</span><span class="proj-tag">GitHub Integration</span></div>
+            <div class="proj-links">
+            
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="proj-card" data-status="unavail" data-type="passion" data-demo="no">
+        <div class="proj-thumb"><img src="assets/upcoming.png" alt="profsly"/></div>
+        <div class="proj-card-body">
+          <div class="proj-card-top">
+            <span class="proj-type-badge proj-type-passion">passion project</span>
+            <span class="status status-unavail">upcoming</span>
+          </div>
+          <h3 class="proj-title">Profsly</h3>
+          <p class="proj-desc">Project can't be leaked! Wanna work with me? Contact me through one of my socials!</p>
+          <div class="proj-card-side">
+            <div class="proj-stack"><span class="proj-tag">Python</span><span class="proj-tag">HTML</span></div>
+            <div class="proj-links">
+             <div class="proj-collab"><span class="proj-collab-label">with:</span>
+            <a href="https://github.com/sumeete123" target="_blank" class="collab-tag">@sumeete123</a>
+          
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+<div class="proj-card" data-status="unavail" data-type="hackathon" data-demo="no">
+        <div class="proj-thumb"><img src="assets/upcoming.png" alt="profsly"/></div>
+        <div class="proj-card-body">
+          <div class="proj-card-top">
+            <span class="proj-type-badge proj-type-hackathon">Competition Project</span>
+            <span class="status status-unavail">upcoming</span>
+          </div>
+          <h3 class="proj-title">Anchor</h3>
+          <p class="proj-desc">Project can't be leaked! As this is a competition project, details are limited for now.</p>
+          <div class="proj-card-side">
+            <div class="proj-stack"><span class="proj-tag">React Native</span><span class="proj-tag">JS</span></div>
+            <div class="proj-links">
+             <div class="proj-collab"><span class="proj-collab-label">with:</span>
+            <a href="https://github.com/sumeete123" target="_blank" class="collab-tag">@sumeete123</a>
+           <a href="https://github.com/mohanchippala123" target="_blank" class="collab-tag">@mohanchippala123</a>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<div class="proj-card" data-status="unavail" data-type="hackathon" data-demo="no">
+        <div class="proj-thumb"><img src="assets/upcoming.png" alt="profsly"/></div>
+        <div class="proj-card-body">
+          <div class="proj-card-top">
+            <span class="proj-type-badge proj-type-hackathon">Competition Project</span>
+            <span class="status status-unavail">upcoming</span>
+          </div>
+          <h3 class="proj-title">Arrivy</h3>
+          <p class="proj-desc">Project can't be leaked! As this is a competition project, details are limited for now.</p>
+          <div class="proj-card-side">
+            <div class="proj-stack"><span class="proj-tag">React Native</span><span class="proj-tag">JS</span></div>
+            <div class="proj-links">
+           
+           
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <p class="no-results" id="no-results">no projects for this filter.</p>
+  </section>
+
+  <footer>
+    <a href="/" class="foot-logo">krish.sakthivel</a>
+    <div class="foot-links">
+      <a href="https://github.com/krishsakthivel" target="_blank">github</a>
+    </div>
+    <p class="foot-copy">&copy; 2026, just a teenager on the internet chasing an idea or two</p>
+  </footer>
+
+  <script src="assets/main.js"></script>
+  <script>
+    const cards = document.querySelectorAll('#proj-log .proj-card');
+    const countEl = document.getElementById('proj-count');
+    const noResultsEl = document.getElementById('no-results');
+    let activeStatus = 'all';
+    let activeType = 'all';
+    let activeDemo = 'all';
+
+    function applyFilters() {
+      let visible = 0;
+      cards.forEach(card => {
+        const statusMatch = activeStatus === 'all' || card.dataset.status === activeStatus;
+        const typeMatch = activeType === 'all' || card.dataset.type === activeType;
+        const demoMatch = activeDemo === 'all' || card.dataset.demo === activeDemo;
+        const show = statusMatch && typeMatch && demoMatch;
+        card.classList.toggle('hidden', !show);
+        if (show) visible++;
+      });
+      countEl.textContent = visible;
+      noResultsEl.classList.toggle('show', visible === 0);
+    }
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const group = btn.dataset.group;
+        document.querySelectorAll(`.filter-btn[data-group="${group}"]`).forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        if (group === 'status') activeStatus = btn.dataset.value;
+        if (group === 'type') activeType = btn.dataset.value;
+        if (group === 'demo') activeDemo = btn.dataset.value;
+        applyFilters();
+      });
+    });
+  </script>
+</body>
+</html>
